@@ -7,8 +7,7 @@
     # docker-compose logs -f
 
     bin/setup
-
-    # TODO: run server and frontend
+    yarn start:dev
 
 # explanation
 

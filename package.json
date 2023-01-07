@@ -1,0 +1,6 @@
+{
+  "name": "nesttest",
+  "scripts": {
+    "start:dev": "(cd client && yarn dev) & (cd api && yarn start:dev)"
+  }
+}
