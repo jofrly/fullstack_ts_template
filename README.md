@@ -25,3 +25,4 @@ I wanted to try out a few things regarding javascript fullstack development with
     - I couldn't figure out how to get transactions to work in my tests within a reasonable timeframe, therefore I currently simply clear the (only existing) repository like that: `await postsRepository.clear();` before each test. That's probably a bit worse than transactions in terms of performance but can be optimized once it becomes a problem.
     - I currently use a simple custom implementation mimicking the factory bot syntax to seed the database with entities I need. This should be extracted / needs more research if there is a suitable library that can be used instead.
 - How can you seed test data when running e2e tests with a framework like cypress / playwright
+    - **Findings** (todo)
