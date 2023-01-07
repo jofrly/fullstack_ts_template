@@ -1,6 +1,6 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
-import { createPost } from 'specs/support/general';
 import { DataSource, Repository } from 'typeorm';
+import { createPost, purgeDatabase } from '../../specs/support/general';
 import { AppModule } from '../app.module';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -19,8 +19,7 @@ describe('PostController', () => {
     dataSource = app.get<DataSource>(DataSource);
     postsRepository = dataSource.getRepository(Post);
 
-    // TODO: create logic to clear repositories for all entities (including future entities without having to manually add them somewhere)
-    await postsRepository.clear();
+    purgeDatabase(dataSource);
   });
 
   afterEach(async () => {

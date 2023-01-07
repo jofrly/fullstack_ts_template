@@ -1,3 +1,4 @@
+import { DataSource } from 'typeorm';
 import { Post } from '../../src/post/entities/post.entity';
 
 export interface PostOptions {
@@ -22,4 +23,13 @@ export async function createPost(
   await postRepository.save(post);
 
   return post;
+}
+
+export async function purgeDatabase(dataSource: DataSource): Promise<void> {
+  const entities = dataSource.entityMetadatas;
+
+  for (const entity of entities) {
+    const repository = dataSource.getRepository(entity.name);
+    await repository.clear();
+  }
 }
