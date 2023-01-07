@@ -1,6 +1,6 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
 import { DataSource, Repository } from 'typeorm';
-import { createPost, purgeDatabase } from '../../specs/support/general';
+import { FactoryBot, purgeDatabase } from '../../specs/support/general';
 import { AppModule } from '../app.module';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -10,15 +10,15 @@ import { PostController } from './post.controller';
 describe('PostController', () => {
   let app: NestApplication;
   let controller: PostController;
-  let dataSource: DataSource;
   let postsRepository: Repository<Post>;
 
   beforeEach(async () => {
     app = await NestFactory.create(AppModule, { logger: false });
     controller = app.get<PostController>(PostController);
-    dataSource = app.get<DataSource>(DataSource);
+    const dataSource = app.get<DataSource>(DataSource);
     postsRepository = dataSource.getRepository(Post);
 
+    FactoryBot.dataSource = dataSource;
     purgeDatabase(dataSource);
   });
 
@@ -29,8 +29,8 @@ describe('PostController', () => {
   describe('findAll', () => {
     it('should return all posts', async () => {
       // arrange
-      await createPost(postsRepository, { title: 'a', body: 'b' });
-      await createPost(postsRepository, {
+      await FactoryBot.create('post', { title: 'a', body: 'b' });
+      await FactoryBot.create('post', {
         title: 'c',
         body: 'some extra long body with more than twenty characters',
       });
@@ -49,7 +49,7 @@ describe('PostController', () => {
   describe('findOne', () => {
     it('should return all posts', async () => {
       // arrange
-      const post = await createPost(postsRepository, {
+      const post = await FactoryBot.create('post', {
         title: 'Post title',
         body: 'some extra long body with more than twenty characters',
       });
@@ -70,7 +70,7 @@ describe('PostController', () => {
   describe('remove', () => {
     it('should delete post', async () => {
       // arrange
-      const post = await createPost(postsRepository);
+      const post = await FactoryBot.create('post');
 
       // act
       await controller.remove(post.id.toString());
@@ -108,7 +108,7 @@ describe('PostController', () => {
   describe('update', () => {
     it('should update a post', async () => {
       // arrange
-      const postToUpdate = await createPost(postsRepository, {
+      const postToUpdate = await FactoryBot.create('post', {
         title: 'old post title',
         body: 'old post body',
       });

@@ -1,23 +1,22 @@
 import { NestFactory } from '@nestjs/core';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 
 import { AppModule } from '../../../src/app.module';
-import { Post } from '../../../src/post/entities/post.entity';
-import { createPost, purgeDatabase } from '../../../specs/support/general';
+import { FactoryBot, purgeDatabase } from '../../../specs/support/general';
 
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule);
   const dataSource = app.get<DataSource>(DataSource);
-  const postsRepository = dataSource.getRepository(Post);
+  FactoryBot.dataSource = dataSource;
 
   await purgeDatabase(dataSource);
-  await seedData(postsRepository);
+  await seedData();
 
   await app.close();
 }
 bootstrap();
 
-async function seedData(postsRepository: Repository<Post>): Promise<void> {
-  await createPost(postsRepository, { title: 'first post title', body: 'first post body' });
-  await createPost(postsRepository, { title: 'second post title', body: 'second post body' });
+async function seedData(): Promise<void> {
+  await FactoryBot.create('post', { title: 'first post title', body: 'first post body' });
+  await FactoryBot.create('post',  { title: 'second post title', body: 'second post body' });
 }

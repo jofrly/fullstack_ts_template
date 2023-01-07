@@ -1,30 +1,6 @@
 import { DataSource } from 'typeorm';
 import { Post } from '../../src/post/entities/post.entity';
 
-export interface PostOptions {
-  title?: string;
-  body?: string;
-}
-
-// TODO: extract to factory bot logic so it can be reused across specs and also for e2e test seeding
-export function buildPost(options: PostOptions = {}): Post {
-  const post = new Post();
-  post.title = options.title || 'Post title';
-  post.body = options.body || 'Post body';
-
-  return post;
-}
-
-export async function createPost(
-  postRepository: any,
-  options: PostOptions = {},
-): Promise<Post> {
-  const post = buildPost(options);
-  await postRepository.save(post);
-
-  return post;
-}
-
 export async function purgeDatabase(dataSource: DataSource): Promise<void> {
   const entities = dataSource.entityMetadatas;
 
@@ -33,3 +9,36 @@ export async function purgeDatabase(dataSource: DataSource): Promise<void> {
     await repository.clear();
   }
 }
+
+export class FactoryBot {
+  static dataSource: DataSource;
+  static factories = {};
+
+  static define(name: string, entity: any, options: any): void {
+    this.factories[name] = {
+      name,
+      entity,
+      options,
+    };
+  }
+
+  static async create(name: string, options: any = {}): Promise<any> {
+    const factory = this.factories[name];
+    const object = new factory.entity();
+
+    for (const key in factory.options) {
+      if (factory.options.hasOwnProperty(key)) {
+        object[key] = options[key] || factory.options[key]();
+      }
+    }
+
+    await this.dataSource.getRepository(factory.entity).save(object);
+
+    return object;
+  }
+}
+
+FactoryBot.define('post', Post, {
+  title: () => 'Post title',
+  body: () => 'Post body',
+});
