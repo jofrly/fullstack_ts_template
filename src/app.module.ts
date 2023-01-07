@@ -1,14 +1,17 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PostModule } from './post/post.module';
 import { dataSourceConfig } from '../typeorm.config';
+import { PostController } from './post/post.controller';
+import { PostService } from './post/post.service';
+import { Post } from './post/entities/post.entity';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dataSourceConfig), PostModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot(dataSourceConfig),
+    TypeOrmModule.forFeature([Post])
+  ],
+  controllers: [PostController],
+  providers: [PostService],
 })
 export class AppModule {}

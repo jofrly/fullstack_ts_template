@@ -1,4 +1,4 @@
-export class CreatePostDto {
+export interface PostReadModel {
   title: string;
   body: string;
 }
