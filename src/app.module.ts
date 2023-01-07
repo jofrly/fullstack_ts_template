@@ -9,7 +9,7 @@ import { Post } from './post/entities/post.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot(dataSourceConfig),
-    TypeOrmModule.forFeature([Post])
+    TypeOrmModule.forFeature([Post]),
   ],
   controllers: [PostController],
   providers: [PostService],

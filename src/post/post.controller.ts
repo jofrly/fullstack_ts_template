@@ -32,7 +32,10 @@ export class PostController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto): Promise<void> {
+  update(
+    @Param('id') id: string,
+    @Body() updatePostDto: UpdatePostDto,
+  ): Promise<void> {
     return this.postService.update(+id, updatePostDto);
   }
 

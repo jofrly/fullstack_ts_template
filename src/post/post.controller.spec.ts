@@ -20,7 +20,10 @@ function buildPost(options: PostOptions = {}): Post {
   return post;
 }
 
-async function createPost(postRepository: any, options: PostOptions = {}): Promise<Post> {
+async function createPost(
+  postRepository: any,
+  options: PostOptions = {},
+): Promise<Post> {
   const post = buildPost(options);
   await postRepository.save(post);
 
@@ -51,7 +54,10 @@ describe('PostController', () => {
     it('should return all posts', async () => {
       // arrange
       await createPost(postsRepository, { title: 'a', body: 'b' });
-      await createPost(postsRepository, { title: 'c', body: 'some extra long body with more than twenty characters' });
+      await createPost(postsRepository, {
+        title: 'c',
+        body: 'some extra long body with more than twenty characters',
+      });
 
       // act
       const result = await controller.findAll();
@@ -67,7 +73,10 @@ describe('PostController', () => {
   describe('findOne', () => {
     it('should return all posts', async () => {
       // arrange
-      const post = await createPost(postsRepository, { title: 'Post title', body: 'some extra long body with more than twenty characters' });
+      const post = await createPost(postsRepository, {
+        title: 'Post title',
+        body: 'some extra long body with more than twenty characters',
+      });
 
       // act
       const result = await controller.findOne(post.id.toString());
@@ -75,7 +84,7 @@ describe('PostController', () => {
       // assert
       expect(result).toEqual({
         title: 'Post title',
-        body: 'some extra long body with more than twenty characters'
+        body: 'some extra long body with more than twenty characters',
       });
     });
 
@@ -123,7 +132,10 @@ describe('PostController', () => {
   describe('update', () => {
     it('should update a post', async () => {
       // arrange
-      const postToUpdate = await createPost(postsRepository, { title: 'old post title', body: 'old post body' });
+      const postToUpdate = await createPost(postsRepository, {
+        title: 'old post title',
+        body: 'old post body',
+      });
       const updatePostDto: UpdatePostDto = {
         title: 'new post title',
         body: 'new post body',

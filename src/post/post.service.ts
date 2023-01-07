@@ -26,13 +26,13 @@ export class PostService {
   async findAll(): Promise<PostReadModel[]> {
     const posts = await this.postsRepository.find();
 
-    return posts.map(post => ({
+    return posts.map((post) => ({
       title: post.title,
       body: post.previewBody,
     }));
   }
 
-  async findOne(id: number): Promise<PostReadModel|null> {
+  async findOne(id: number): Promise<PostReadModel | null> {
     const post = await this.postsRepository.findOneBy({ id: id });
 
     if (!post) {
