@@ -29,10 +29,10 @@ I wanted to try out a few things regarding javascript fullstack development with
 - [I like my tests to not be mocked/stubbed when possible and therefore hit the db](https://martinfowler.com/bliki/UnitTest.html#SolitaryOrSociable) but unlike [Rails](https://rubyonrails.org/), [nest.js's documentation](https://docs.nestjs.com/fundamentals/testing) does not support this style of testing out of the box
     - **Findings**
     - To have a testing experience that suits my preferences, I needed my tests to grab different environment variables when we are in the `NODE_ENV=test` environment (See `typeorm.config.ts`) to connect to the test database.
-    - My tests don't create a testing app, instead they simply create a `NestFactory.create(AppModule)` just like in the `main.ts` file.
+    - My tests don't create a testing module as suggested by the nest.js docs (`Test.createTestingModule`), instead they simply create a real one `NestFactory.create(AppModule)` just like in the `main.ts` file.
     - The `db:migrate` npm script needs to execute the migrations on both the dev and the test database.
     - I couldn't figure out how to get transactions to work in my tests within a reasonable timeframe, therefore I currently simply clear the (only existing) repository like that: `await postsRepository.clear();` before each test. That's probably a bit worse than transactions in terms of performance but can be optimized once it becomes a problem.
-    - I currently use a simple custom implementation mimicking the factory bot syntax to seed the database with entities I need. This should be extracted / needs more research if there is a suitable library that can be used instead.
+    - The `NestFactory.create(AppModule)` currently gets called before every unit test and gets closed after every unit test which might lead to performance issues once the app or the test suite grows. It's probably possible to only create one instance and reuse it to reduce the overhead.
 - How can you seed test data when running e2e tests with a framework like cypress / playwright
     - **Findings**
     - When running end to end tests, you need to start the full stack (frontend, backend and other services if necessary; not in this case though.)
