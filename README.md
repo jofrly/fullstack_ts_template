@@ -58,11 +58,5 @@ That way you can
 
 # dev setup
 
-    cp .env.example .env
-
-    docker-compose up -d
-    # optionally to see logs afterwards
-    # docker-compose logs -f
-
     bin/setup
     yarn start:dev

@@ -1,13 +1,28 @@
 #!/bin/sh
 
+pwd
+ln -s .env.example .env
+
+cd api
+pwd
+ln -s ../.env.example .env
+
+cd ..
+pwd
+docker-compose up -d
 yarn
 
 cd api
+pwd
 yarn
 yarn db:migrate
 
+cd ..
 cd client
+pwd
 yarn
 
+cd ..
 cd e2e
+pwd
 yarn
