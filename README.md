@@ -18,7 +18,7 @@ I wanted to try out a few things regarding javascript fullstack development with
     - The `NestFactory.create(AppModule)` currently gets called before every unit test and gets closed after every unit test which might lead to performance issues once the app or the test suite grows. It's probably possible to only create one instance and reuse it to reduce the overhead.
 - E2E tests should ideally be independent from one another which requires database seeding in most applications. How can you seed test data when running e2e tests with a framework like cypress / playwright in combination with nest.js?
     - **Findings**
-    - When running end to end tests, you need to start the full stack (frontend, backend and other services if necessary; not in this case though.) Depending on the project configuration, this could mean a few steps like shutting down the development environment, changing env vars, starting the test environment, clearing cache, ... which is a bad developer experience
+    - When running end to end tests, you need to start the full stack (frontend, backend and other services if necessary; not in this case though.) Depending on the project configuration, this could mean a few steps like shutting down the development environment, changing env vars, starting the test environment, clearing cache, ... which is a bad developer experience.
     - Cypress forces the caller to run the test server first which is problematic if you intend to call cypress in multiple different ways (e.g. `yarn e2e:run` or via vscode code lense for example).
     - Playwright handles this better: There is a `webServer` option in the `playwright.config.ts` file which you can configure to start the stack and also wait until the specified url returns a positive http status code before playwright attempts to visit the test url.
     - I had multiple different problems with cypress in the past and wanted to try out playwright anyways so I sticked with that.
@@ -31,6 +31,31 @@ I wanted to try out a few things regarding javascript fullstack development with
     - The overall performance for the e2e seed script is not that great yet (~3s for calling the script, purging the db and seeding 2 records). I think part of the reason is ts-node and another part is that creating the application context takes a while especially when creating a new db connection.
     - Therefore I suppose it would be much better in terms of performance to expose endpoints to seed data for e2e tests. These endpoints should only be available in `NODE_ENV=test` and would basically eliminate all performance issues. I'd expect a reduction from ~3s down to ~50ms which is significant once you have many seed scripts.
 
+# optimal developer experience (vscode)
+
+- https://github.com/vuejs/vetur
+- https://github.com/microsoft/playwright
+- https://github.com/firsttris/vscode-jest-runner
+
+Add the following to your `settings.json`:
+```
+"jestrunner.codeLensSelector": "**/{api,client}/**/*.{test,spec}.{js,jsx,ts,tsx}",
+```
+
+That way you can
+- Open `*.spec.ts` files in `e2e/specs` and simply click on the "Play" button for a single test, a describe block or a whole spec file inside vscode. This will do the following:
+    - Spin up the stack (frontend & backend) in the test environment with a different database connection and different ports (so the development environment does not need to be shut down).
+    - Wait for the stack to be done compiling.
+    - Run the according spec(s) including the seeding step.
+    - Shut the test steck down afterwards.
+    - It all happens in ~4s.
+- You can run all e2e specs by running `yarn e2e:run` or `yarn e2e:debug` (although when you're debugging it might be better to run just the one spec that you're debugging and setting a breakpoint).
+- Open `*.spec.ts` files in `api` and simply click on the "Run" or "Debug" button above a `it` or `describe`. This will do the following:
+    - API specs don't need the frontend but I want them to access the database.
+    - `jest` automatically sets the `NODE_ENV` to `test`. Therefore that nest.js instance in the api specs connects to the test database.
+    - The database gets purged before every spec, specs hit the database to allow us real behavior testing.
+- You can run all api specs by running `cd api && yarn test`.
+
 # dev setup
 
     cp .env.example .env
@@ -41,9 +66,3 @@ I wanted to try out a few things regarding javascript fullstack development with
 
     bin/setup
     yarn start:dev
-
-    # recommended vscode extensions
-    # https://github.com/microsoft/playwright
-    # https://github.com/firsttris/vscode-jest-runner
-    # "jestrunner.codeLensSelector": "**/{api,client}/**/*.{test,spec}.{js,jsx,ts,tsx}",
-    # https://github.com/vuejs/vetur
