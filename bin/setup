@@ -8,3 +8,6 @@ yarn db:migrate
 
 cd client
 yarn
+
+cd e2e
+yarn
