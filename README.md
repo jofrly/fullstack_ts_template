@@ -58,5 +58,6 @@ That way you can
 
 # dev setup
 
+    # make sure docker is running
     bin/setup
     yarn start:dev
