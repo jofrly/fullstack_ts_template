@@ -7,10 +7,7 @@ import { PostModule } from './post/post.module';
 import { dataSourceConfig } from '../typeorm.config';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(dataSourceConfig),
-    PostModule,
-  ],
+  imports: [TypeOrmModule.forRoot(dataSourceConfig), PostModule],
   controllers: [AppController],
   providers: [AppService],
 })
