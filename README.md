@@ -1,20 +1,3 @@
-# dev setup
-
-    cp .env.example .env
-
-    docker-compose up -d
-    # optionally to see logs afterwards
-    # docker-compose logs -f
-
-    bin/setup
-    yarn start:dev
-
-    # recommended vscode extensions
-    # https://github.com/microsoft/playwright
-    # https://github.com/firsttris/vscode-jest-runner
-    # "jestrunner.codeLensSelector": "**/{api,client}/**/*.{test,spec}.{js,jsx,ts,tsx}",
-    # https://github.com/vuejs/vetur
-
 # explanation
 
 I wanted to try out a few things regarding javascript fullstack development with nest.js in terms of testing and developer experience:
@@ -47,3 +30,20 @@ I wanted to try out a few things regarding javascript fullstack development with
     - I was able to extract both the `purgeDatabase` and the `FactoryBot` logic so it can be reused. Both are currently used both in the controller spec `post.controller.spec.ts` and the `a.ts` file.
     - The overall performance for the e2e seed script is not that great yet (~3s for calling the script, purging the db and seeding 2 records). I think part of the reason is ts-node and another part is that creating the application context takes a while especially when creating a new db connection.
     - Therefore I suppose it would be much better in terms of performance to expose endpoints to seed data for e2e tests. These endpoints should only be available in `NODE_ENV=test` and would basically eliminate all performance issues. I'd expect a reduction from ~3s down to ~50ms which is significant once you have many seed scripts.
+
+# dev setup
+
+    cp .env.example .env
+
+    docker-compose up -d
+    # optionally to see logs afterwards
+    # docker-compose logs -f
+
+    bin/setup
+    yarn start:dev
+
+    # recommended vscode extensions
+    # https://github.com/microsoft/playwright
+    # https://github.com/firsttris/vscode-jest-runner
+    # "jestrunner.codeLensSelector": "**/{api,client}/**/*.{test,spec}.{js,jsx,ts,tsx}",
+    # https://github.com/vuejs/vetur
