@@ -16,9 +16,9 @@ I wanted to try out a few things regarding javascript fullstack development with
     - The `db:migrate` npm script needs to execute the migrations on both the dev and the test database.
     - I couldn't figure out how to get transactions to work in my tests within a reasonable timeframe, therefore I currently simply clear the (only existing) repository like that: `await postsRepository.clear();` before each test. That's probably a bit worse than transactions in terms of performance but can be optimized once it becomes a problem.
     - The `NestFactory.create(AppModule)` currently gets called before every unit test and gets closed after every unit test which might lead to performance issues once the app or the test suite grows. It's probably possible to only create one instance and reuse it to reduce the overhead.
-- How can you seed test data when running e2e tests with a framework like cypress / playwright
+- E2E tests should ideally be independent from one another which requires database seeding in most applications. How can you seed test data when running e2e tests with a framework like cypress / playwright in combination with nest.js?
     - **Findings**
-    - When running end to end tests, you need to start the full stack (frontend, backend and other services if necessary; not in this case though.)
+    - When running end to end tests, you need to start the full stack (frontend, backend and other services if necessary; not in this case though.) Depending on the project configuration, this could mean a few steps like shutting down the development environment, changing env vars, starting the test environment, clearing cache, ... which is a bad developer experience
     - Cypress forces the caller to run the test server first which is problematic if you intend to call cypress in multiple different ways (e.g. `yarn e2e:run` or via vscode code lense for example).
     - Playwright handles this better: There is a `webServer` option in the `playwright.config.ts` file which you can configure to start the stack and also wait until the specified url returns a positive http status code before playwright attempts to visit the test url.
     - I had multiple different problems with cypress in the past and wanted to try out playwright anyways so I sticked with that.
