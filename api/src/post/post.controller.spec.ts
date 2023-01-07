@@ -1,34 +1,11 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
-import { DataSource, Repository, UpdateDateColumn } from 'typeorm';
+import { createPost } from 'specs/support/general';
+import { DataSource, Repository } from 'typeorm';
 import { AppModule } from '../app.module';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post } from './entities/post.entity';
 import { PostController } from './post.controller';
-
-interface PostOptions {
-  title?: string;
-  body?: string;
-}
-
-// TODO: extract to factory bot logic so it can be reused across specs and also for e2e test seeding
-export function buildPost(options: PostOptions = {}): Post {
-  const post = new Post();
-  post.title = options.title || 'Post title';
-  post.body = options.body || 'Post body';
-
-  return post;
-}
-
-async function createPost(
-  postRepository: any,
-  options: PostOptions = {},
-): Promise<Post> {
-  const post = buildPost(options);
-  await postRepository.save(post);
-
-  return post;
-}
 
 describe('PostController', () => {
   let app: NestApplication;

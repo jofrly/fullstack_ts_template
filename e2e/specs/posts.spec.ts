@@ -10,8 +10,8 @@ test.describe('Posts', () => {
     await page.goto('/posts');
 
     // assert
-    const body = page.locator('body');
     await expect(page).toHaveTitle(/Vite App/);
+    const body = page.locator('body');
     await expect(body).toContainText('first post title');
     await expect(body).toContainText('first post body');
     await expect(body).toContainText('second post title');
