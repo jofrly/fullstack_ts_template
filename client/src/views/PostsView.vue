@@ -14,7 +14,7 @@
   });
 
   onMounted(async () => {
-    const response = await fetch('http://localhost:3000/api/post');
+    const response = await fetch(`//${import.meta.env.VITE_API_URL}/api/post`);
     const posts = await response.json()
     state.posts = [...posts];
   });

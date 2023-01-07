@@ -1,6 +1,10 @@
 {
   "name": "nesttest",
+  "license": "MIT",
   "scripts": {
-    "start:dev": "(cd client && yarn dev) & (cd api && yarn start:dev)"
+    "start:dev": "(cd client && yarn start:dev) & (cd api && yarn start:dev)",
+    "start:test": "(cd client && yarn start:test) & (cd api && yarn start:test)",
+    "e2e:debug": "cd e2e && yarn e2e:debug",
+    "e2e:run": "cd e2e && yarn e2e:run"
   }
 }

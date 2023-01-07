@@ -12,7 +12,7 @@ interface PostOptions {
 }
 
 // TODO: extract to factory bot logic so it can be reused across specs and also for e2e test seeding
-function buildPost(options: PostOptions = {}): Post {
+export function buildPost(options: PostOptions = {}): Post {
   const post = new Post();
   post.title = options.title || 'Post title';
   post.body = options.body || 'Post body';

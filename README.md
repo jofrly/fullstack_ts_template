@@ -9,6 +9,12 @@
     bin/setup
     yarn start:dev
 
+    # recommended vscode extensions
+    # https://github.com/microsoft/playwright
+    # https://github.com/firsttris/vscode-jest-runner
+    # "jestrunner.codeLensSelector": "**/{api,client}/**/*.{test,spec}.{js,jsx,ts,tsx}",
+    # https://github.com/vuejs/vetur
+
 # explanation
 
 I wanted to try out a few things regarding javascript fullstack development with nest.js:

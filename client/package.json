@@ -1,9 +1,11 @@
 {
   "name": "client",
+  "license": "MIT",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "start:dev": "VITE_API_URL=localhost:3000 vite --port 4000",
+    "start:test": "VITE_API_URL=localhost:3001 vite --port 4001",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "test:unit": "vitest --environment jsdom --root src/",
