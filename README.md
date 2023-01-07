@@ -1,10 +1,14 @@
 # dev setup
 
-    yarn
     cp .env.example .env
+
     docker-compose up -d
-    yarn db:migrate
-    yarn start:dev
+    # optionally to see logs afterwards
+    # docker-compose logs -f
+
+    bin/setup
+
+    # TODO: run server and frontend
 
 # explanation
 
