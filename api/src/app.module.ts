@@ -13,13 +13,7 @@ import { SeedController } from './controllers/seed.controller';
     TypeOrmModule.forRoot(dataSourceConfig),
     TypeOrmModule.forFeature([Post]),
   ],
-  controllers: [
-    PostController,
-    SeedController,
-  ],
-  providers: [
-    PostService,
-    SeedService,
-  ],
+  controllers: [PostController, SeedController],
+  providers: [PostService, SeedService],
 })
 export class AppModule {}

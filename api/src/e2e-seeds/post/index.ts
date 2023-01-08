@@ -10,4 +10,4 @@ export default {
   c: CSeed,
   d: DSeed,
   e: ESeed,
-}
+};

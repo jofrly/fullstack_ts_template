@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue";
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
@@ -23,19 +23,24 @@ const state = reactive({
 
 onMounted(async () => {
   const id = route.params.id;
-  const response = await fetch(`//${import.meta.env.VITE_API_URL}/api/post/${id}`);
+  const response = await fetch(
+    `//${import.meta.env.VITE_API_URL}/api/post/${id}`
+  );
   const post = await response.json();
   state.post = post;
 });
 
 async function deletePost() {
   const id = route.params.id;
-  const response = await fetch(`//${import.meta.env.VITE_API_URL}/api/post/${id}`, {
-    method: 'DELETE',
-  });
+  const response = await fetch(
+    `//${import.meta.env.VITE_API_URL}/api/post/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
 
   if (response.status === 200) {
-    router.push('/posts')
+    router.push("/posts");
   }
 }
 </script>

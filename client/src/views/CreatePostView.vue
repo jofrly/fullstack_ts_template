@@ -10,25 +10,25 @@
 </template>
 
 <script setup lang="ts">
-  import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
-  const router = useRouter();
-  const form = {
-    title: "",
-    body: "",
+const router = useRouter();
+const form = {
+  title: "",
+  body: "",
+};
+
+async function submit() {
+  const response = await fetch(`//${import.meta.env.VITE_API_URL}/api/post`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(form),
+  });
+
+  if (response.status === 201) {
+    router.push("/posts");
   }
-
-  async function submit() {
-    const response = await fetch(`//${import.meta.env.VITE_API_URL}/api/post`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form),
-    });
-
-    if (response.status === 201) {
-      router.push('/posts')
-    }
-  }
+}
 </script>

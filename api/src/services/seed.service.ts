@@ -13,7 +13,9 @@ export class SeedService {
     await purgeDatabase(this.dataSource);
     FactoryBot.dataSource = this.dataSource;
 
-    const result = await E2ESeeds[runSeedDto.group][runSeedDto.seed](this.dataSource);
+    const result = await E2ESeeds[runSeedDto.group][runSeedDto.seed](
+      this.dataSource,
+    );
 
     return result || {};
   }
