@@ -1,5 +1,8 @@
 <template>
   <div>
+    <RouterLink to="/posts/new">
+      <button>Neuer Post</button>
+    </RouterLink>
     <div v-for="post in state.posts" :key="post.title">
       {{ post.title }}: {{ post.body }}
     </div>
