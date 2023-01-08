@@ -57,7 +57,7 @@ const config: PlaywrightTestConfig = {
 
   webServer: {
     command: 'cd .. && yarn start:test',
-    url: 'http://localhost:4001/',
+    url: 'http://localhost:3001/api/seed',
     timeout: 120 * 1000,
   },
 };

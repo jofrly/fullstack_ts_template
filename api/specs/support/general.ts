@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Post } from '../../src/post/entities/post.entity';
+import { Post } from '../../src/entities/post.entity';
 
 export async function purgeDatabase(dataSource: DataSource): Promise<void> {
   const entities = dataSource.entityMetadatas;

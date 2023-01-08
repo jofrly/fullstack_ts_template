@@ -1,3 +1,6 @@
-export function seedData(group: string, test: string): void {
-  require('child_process').execSync(`cd ../api && yarn e2e-seed specs/e2e_seeds/${group}/${test}.ts`);
+import { Page } from '@playwright/test';
+
+export async function seedData(page: Page, group: string, seed: string): Promise<any> {
+  const response = await page.request.post('http://localhost:3001/api/seed', { data: { group, seed } });
+  return response.json();
 }

@@ -1,10 +1,11 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
 import { DataSource, Repository } from 'typeorm';
+
 import { FactoryBot, purgeDatabase } from '../../specs/support/general';
 import { AppModule } from '../app.module';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
-import { Post } from './entities/post.entity';
+import { CreatePostDto } from '../dtos/create-post.dto';
+import { UpdatePostDto } from '../dtos/update-post.dto';
+import { Post } from '../entities/post.entity';
 import { PostController } from './post.controller';
 
 describe('PostController', () => {

@@ -40,7 +40,7 @@ export const dataSourceConfig: DataSourceOptions = {
     join(__dirname, 'src/db/migrations/*.ts')
   ],
   entities: [
-    join(__dirname, 'src/**/*.entity.{js,ts}'),
+    join(__dirname, 'src/entities/*.entity.{js,ts}'),
   ],
   dropSchema: false,
   synchronize: false,
